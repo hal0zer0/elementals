@@ -17,3 +17,7 @@ class BatteryAdmin(admin.ModelAdmin):
 @admin.register(emodels.BatteryType)
 class BatteryTypeAdmin(admin.ModelAdmin):
     pass
+
+@admin.register(emodels.Ability)
+class AbilityAdmin(admin.ModelAdmin):
+    pass

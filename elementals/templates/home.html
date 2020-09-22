@@ -41,7 +41,12 @@
                   <li>{{ trait.name }}</li>
                 {% endfor %}
               </ul>
-
+              <hr>
+              {% for ability in card.construct.abilities.all %}
+                {{ ability.cost_as_html|safe }}:
+                {{ ability.text }}
+              {% endfor %}
+              <hr>
               <p class="card-text"><em>{{ card.flavor_text }}</em></p>
               <div align="right"><p><strong>{{card.construct.attack}}/{{ card.construct.defense }}</strong></p></div>
 

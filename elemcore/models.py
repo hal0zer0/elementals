@@ -2,6 +2,23 @@ from django.db import models
 import itertools
 import math
 
+def cost_to_html(cost_list):
+    print("Converting cost to html")
+    nameless = ''
+    named_as_icons = []
+    for item in cost_list:
+        try:
+            nameless = int(item)
+        except TypeError:
+            named = item
+            next
+        named_as_icons.append('<img src="{}" height="16" width="16px">'.format(named.type.icon))
+
+    print("List of images:", named_as_icons)
+    result = str(nameless) + " " + ''.join(named_as_icons)
+    print(result)
+    return result
+
 # Create your models here.
 class BatteryType(models.Model):
     name = models.CharField(max_length=16)
@@ -25,7 +42,12 @@ class Trait(models.Model):
 
 class Ability(models.Model):
     cost = models.ManyToManyField(Battery)
-    text = models.CharField(max_length=32)
+    text = models.CharField(max_length=512)
+    def __str__(self):
+        return self.text
+    @property
+    def cost_as_html(self):
+        return cost_to_html(self.cost.all())
 
 
 class Card(models.Model):
@@ -68,7 +90,6 @@ class Card(models.Model):
 
     @property
     def named_cost(self):
-        print(self.cost[1:])
         return self.cost[1:]
 
     @property
