@@ -44,35 +44,43 @@
     <div class="jumbotron">
         <div class="container">
             <h1 class="display-3">Hello, world!</h1>
-            <p>This is a template for a simple marketing or informational website. It includes a large callout called a
-                jumbotron and three supporting pieces of content. Use it as a starting point to create something more
-                unique.</p>
+            <p>In the time of chimpanzees, I was a monkey.  Butane in my veins and a mouth to cut the chunky with the plastic eyeballs, spraypaint the vegetables.  Dog food stalls with the beef cake pantyhose.</p>
             <p><a class="btn btn-primary btn-lg" href="#" role="button">Learn more &raquo;</a></p>
         </div>
     </div>
-    <div class="container">
-      {% for card in cards %}
-        <div class="card" style="width: 18rem;">
-          <h5 class="card-title">{{ card.name }}</h5>
-          <img class="card-img-top" src="https://t7.rbxcdn.com/9ace0e2b51e697a2f75be238dfcef6c4" alt="Card image cap">
-          <div class="card-body">
-            <p>{{card.cost}}</p>
 
-            <ul>
-              {% for trait in card.traits %}
-                <li>{{ trait.name }}</li>
-              {% endfor %}
-            </ul>
-            <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-            <a href="#" class="btn btn-primary">Go somewhere</a>
+
+
+
+    <div class="container">
+      <div class="card-columns">
+        {% for card in cards %}
+          <div class="card " style="width: 18rem;">
+            <h5 class="card-header bg-dark text-light">{{ card.name }}</h5>
+            <div align="right">{{card.cost}}</div>
+
+            <img class="card-img-top" src="{{card.picture}}" alt="Card image cap" width="266px" height="200px">
+            <div class="card-body">
+
+
+              <ul>
+                {% for trait in card.construct.traits.all %}
+                  <li>{{ trait.name }}</li>
+                {% endfor %}
+              </ul>
+
+              <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+              <div align="right"><p>{{card.construct.attack}}/{{ card.construct.defense }}</p></div>
+              
+            </div>
           </div>
-        </div>
-      {% endfor %}
+        {% endfor %}
+      </div>
     </div>
 
     <div class="container">
         <!-- Example row of columns -->
-        <div class="row">
+        <!-- <div class="row">
             <div class="col-md-4">
                 <h2>Heading</h2>
                 <p>Donec id elit non mi porta gravida at eget metus. Fusce dapibus, tellus ac cursus commodo, tortor
@@ -98,7 +106,7 @@
 
         <hr>
 
-    </div> <!-- /container -->
+    </div>  /container -->
 
 </main>
 

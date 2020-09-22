@@ -1,5 +1,6 @@
 from django.db import models
 import itertools
+import math
 
 # Create your models here.
 class BatteryType(models.Model):
@@ -7,10 +8,12 @@ class BatteryType(models.Model):
     def __str__(self):
         return self.name
 
+
 class Battery(models.Model):
     type = models.ForeignKey(BatteryType, on_delete=models.PROTECT)
     def __str__(self):
         return self.type.name
+
 
 class Trait(models.Model):
     name = models.CharField(max_length=32)
@@ -18,8 +21,10 @@ class Trait(models.Model):
     def __str__(self):
         return self.name
 
+
 class Card(models.Model):
     name = models.CharField(max_length=64)
+    picture = models.URLField(max_length=255)
     def __str__(self):
         return self.name
 
@@ -44,14 +49,16 @@ class Card(models.Model):
                 except TypeError:
                     [named.append(each) for each in x ]
 
-            result = [int(total/2)] + named
+            result = [math.ceil(total/2)] + named
+            print(total/2)
             print("result:", result)
             #print(len(result))
             return(result)
         return parse_cost_list(cost_list)
 
+
 class Construct(Card):
     type = 'CONSTRUCT'
     attack = models.IntegerField()
     defense = models.IntegerField()
-    traits = models.ManyToManyField(Trait)
+    traits = models.ManyToManyField(Trait, blank=True)
