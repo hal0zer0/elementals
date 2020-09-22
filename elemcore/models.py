@@ -70,7 +70,6 @@ class Card(models.Model):
         if self.construct:
             for trait in self.construct.traits.all():
                 for battery in trait.cost.all():
-                    print("IS THIS A BATTERY?", type(battery))
                     batteries.append(battery)
             base_cost = math.ceil((self.construct.attack + self.construct.defense) /2)
         #result = base_cost, batteries]
