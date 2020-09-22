@@ -25,7 +25,9 @@ class Trait(models.Model):
 
 class Card(models.Model):
     name = models.CharField(max_length=64)
-    picture = models.URLField(max_length=255)
+    picture = models.URLField(max_length=256)
+    flavor_text = models.CharField(max_length=256)
+
     def __str__(self):
         return self.name
 
@@ -51,9 +53,6 @@ class Card(models.Model):
                     [named.append(each) for each in x ]
 
             result = [math.ceil(total/2)] + named
-            print(total/2)
-            print("result:", result)
-            #print(len(result))
             return(result)
         return parse_cost_list(cost_list)
 

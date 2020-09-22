@@ -69,9 +69,9 @@
                 {% endfor %}
               </ul>
 
-              <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-              <div align="right"><p>{{card.construct.attack}}/{{ card.construct.defense }}</p></div>
-              
+              <p class="card-text"><em>{{ card.flavor_text }}</em></p>
+              <div align="right"><p><strong>{{card.construct.attack}}/{{ card.construct.defense }}</strong></p></div>
+
             </div>
           </div>
         {% endfor %}
