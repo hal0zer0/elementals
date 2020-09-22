@@ -5,6 +5,7 @@ import math
 # Create your models here.
 class BatteryType(models.Model):
     name = models.CharField(max_length=16)
+    icon = models.URLField(max_length=512)
     def __str__(self):
         return self.name
 
