@@ -1,4 +1,5 @@
 from django.db import models
+import itertools
 
 # Create your models here.
 class BatteryType(models.Model):
@@ -22,7 +23,35 @@ class Card(models.Model):
     def __str__(self):
         return self.name
 
+    @property
+    def cost(self):
+        cost_list = []
+        if self.construct:
+            cost_list.append(self.construct.attack)
+            cost_list.append(self.construct.defense)
+
+            trait_costs = []
+            for trait in self.construct.traits.all():
+                cost_list.append([x.type.name for x in trait.cost.all()])
+
+        def parse_cost_list(cost_list):
+            named = []
+            total = 0
+            for x in cost_list:
+                try:
+                    x = int(x)
+                    total += x
+                except TypeError:
+                    [named.append(each) for each in x ]
+
+            result = [int(total/2)] + named
+            print("result:", result)
+            #print(len(result))
+            return(result)
+        return parse_cost_list(cost_list)
+
 class Construct(Card):
+    type = 'CONSTRUCT'
     attack = models.IntegerField()
     defense = models.IntegerField()
     traits = models.ManyToManyField(Trait)
