@@ -19,14 +19,19 @@ class Battery(models.Model):
 class Trait(models.Model):
     name = models.CharField(max_length=32)
     cost = models.ManyToManyField(Battery)
+    long_desc = models.TextField(max_length=4096)
     def __str__(self):
         return self.name
+
+class Ability(models.Model):
+    cost = models.ManyToManyField(Battery)
+    text = models.CharField(max_length=32)
 
 
 class Card(models.Model):
     name = models.CharField(max_length=64)
     picture = models.URLField(max_length=256)
-    flavor_text = models.CharField(max_length=256)
+    flavor_text = models.TextField(max_length=256)
 
     def __str__(self):
         return self.name
@@ -52,13 +57,26 @@ class Card(models.Model):
                 except TypeError:
                     [named.append(each) for each in x ]
 
+            # Where we actually apply the math
             result = [math.ceil(total/2)] + named
             return(result)
         return parse_cost_list(cost_list)
 
+    @property
+    def nameless_cost(self):
+        return self.cost[0]
+
+    @property
+    def named_cost(self):
+        print(self.cost[1:])
+        return self.cost[1:]
+
+    @property
+    def converted_cost(self):
+        return nameless_cost + len(named_cost)
 
 class Construct(Card):
-    type = 'CONSTRUCT'
     attack = models.IntegerField()
     defense = models.IntegerField()
     traits = models.ManyToManyField(Trait, blank=True)
+    abilities = models.ManyToManyField(Ability, blank=True)
