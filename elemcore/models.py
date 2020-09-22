@@ -2,21 +2,17 @@ from django.db import models
 import itertools
 import math
 
-def cost_to_html(cost_list):
-    print("Converting cost to html")
-    nameless = ''
-    named_as_icons = []
-    for item in cost_list:
-        try:
-            nameless = int(item)
-        except TypeError:
-            named = item
-            next
-        named_as_icons.append('<img src="{}" height="16" width="16px">'.format(named.type.icon))
+def cost_to_html(base_cost, batteries=[]):
+    print("to_html got:", base_cost, batteries)
+    # Takes = [base cost (int), [battery objects]]
+    icons=[]
+    for battery in batteries:
+        icons.append('<img src="{}" height="16px" width="16px">'.format(battery.type.icon))
+    if base_cost == 0:
+        base_cost = ''
 
-    print("List of images:", named_as_icons)
-    result = str(nameless) + " " + ''.join(named_as_icons)
-    print(result)
+    result = str(base_cost)+ ''.join(icons)
+    print("to_html output:", result)
     return result
 
 # Create your models here.
@@ -45,9 +41,18 @@ class Ability(models.Model):
     text = models.CharField(max_length=512)
     def __str__(self):
         return self.text
+
+    @property
+    def get_cost(self):
+        return 0, self.cost.all()
+
+
+
     @property
     def cost_as_html(self):
-        return cost_to_html(self.cost.all())
+        base_cost, batteries = self.get_cost
+        return cost_to_html(base_cost, batteries)
+
 
 
 class Card(models.Model):
@@ -59,30 +64,17 @@ class Card(models.Model):
         return self.name
 
     @property
-    def cost(self):
-        cost_list = []
+    def get_cost(self):
+        base_cost = 0
+        batteries = []
         if self.construct:
-            cost_list.append(self.construct.attack)
-            cost_list.append(self.construct.defense)
-
-            trait_costs = []
             for trait in self.construct.traits.all():
-                cost_list.append([x.type.name for x in trait.cost.all()])
-
-        def parse_cost_list(cost_list):
-            named = []
-            total = 0
-            for x in cost_list:
-                try:
-                    x = int(x)
-                    total += x
-                except TypeError:
-                    [named.append(each) for each in x ]
-
-            # Where we actually apply the math
-            result = [math.ceil(total/2)] + named
-            return(result)
-        return parse_cost_list(cost_list)
+                for battery in trait.cost.all():
+                    print("IS THIS A BATTERY?", type(battery))
+                    batteries.append(battery)
+            base_cost = math.ceil((self.construct.attack + self.construct.defense) /2)
+        #result = base_cost, batteries]
+        return base_cost, batteries
 
     @property
     def nameless_cost(self):
@@ -90,11 +82,16 @@ class Card(models.Model):
 
     @property
     def named_cost(self):
-        return self.cost[1:]
+        return self.cost[1]
 
     @property
     def converted_cost(self):
         return nameless_cost + len(named_cost)
+
+    @property
+    def cost_as_html(self):
+        base_cost, batteries = self.get_cost
+        return cost_to_html(base_cost, batteries)
 
 class Construct(Card):
     attack = models.IntegerField()

@@ -23,13 +23,8 @@
           <div class="card " style="width: 18rem;">
             <h5 class="card-header bg-dark text-light">{{ card.name }}</h5>
             <div align="right">
-              {{ card.nameless_cost}}
-              {% for cp in card.named_cost %}
-                {% if cp == 'AIR' %}
-                  <img src="https://icons.iconarchive.com/icons/google/noto-emoji-travel-places/256/42681-cyclone-icon.png" height="16px" width="16px">
-                {% endif %}
+              {{ card.cost_as_html|safe }}
 
-              {% endfor %}
             </div>
 
             <img class="card-img-top" src="{{card.picture}}" alt="Card image cap" width="266px" height="200px">
