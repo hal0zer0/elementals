@@ -23,24 +23,31 @@
           <div class="card " style="width: 18rem;">
             <h5 class="card-header bg-dark text-light">{{ card.name }}</h5>
             <div align="right">
-              {{ card.cost_as_html|safe }}
+              <strong>{{ card.cost_as_html|safe }}</strong>
 
             </div>
 
             <img class="card-img-top" src="{{card.picture}}" alt="Card image cap" width="266px" height="200px">
             <div class="card-body">
 
+              {% if card.construct %}
+                <ul>
+                  {% for trait in card.construct.traits.all %}
+                    <li>{{ trait.name }}</li>
+                  {% endfor %}
 
-              <ul>
-                {% for trait in card.construct.traits.all %}
-                  <li>{{ trait.name }}</li>
+                </ul>
+                <hr>
+                {% for ability in card.construct.abilities.all %}
+                  {{ ability.cost_as_html|safe }}:
+                  {{ ability.text }}
                 {% endfor %}
-              </ul>
-              <hr>
-              {% for ability in card.construct.abilities.all %}
-                {{ ability.cost_as_html|safe }}:
-                {{ ability.text }}
-              {% endfor %}
+              {% endif %}
+
+
+
+
+
               <hr>
               <p class="card-text"><em>{{ card.flavor_text }}</em></p>
               <div align="right"><p><strong>{{card.construct.attack}}/{{ card.construct.defense }}</strong></p></div>
