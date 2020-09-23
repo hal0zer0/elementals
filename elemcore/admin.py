@@ -29,3 +29,7 @@ class ActionAdmin(admin.ModelAdmin):
 @admin.register(emodels.ActionEffect)
 class ActionEffectAdmin(admin.ModelAdmin):
     pass
+
+@admin.register(emodels.Rarity)
+class RarityAdmin(admin.ModelAdmin):
+    pass

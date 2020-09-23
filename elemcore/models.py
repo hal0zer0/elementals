@@ -36,6 +36,11 @@ class Trait(models.Model):
     def __str__(self):
         return self.name
 
+class Rarity(models.Model):
+    level = models.PositiveIntegerField()
+    label = models.CharField(max_length=16)
+    def __str__(self):
+        return self.label
 
 class Ability(models.Model):
     cost = models.ManyToManyField(Battery)
@@ -52,9 +57,7 @@ class Ability(models.Model):
         base_cost, batteries = self.get_cost
         return cost_to_html(base_cost, batteries)
 
-class Rarity(models.Model):
-    level = models.PositiveIntegerField()
-    label = models.CharField(max_length=16)
+
 
 
 class Card(models.Model):
@@ -94,14 +97,14 @@ class Construct(Card):
 class ActionEffect(models.Model):
     effect = models.TextField(max_length=4096)
     cost = models.ManyToManyField(Battery)
+    rarity = models.ForeignKey(Rarity, on_delete=models.PROTECT)
     def __str__(self):
         return self.effect
 
 
 class Action(Card):
-    card_type = "ACTION"
-    #cost = None
     effects = models.ManyToManyField(ActionEffect)
+
     def __str__(self):
         return self.name
 
