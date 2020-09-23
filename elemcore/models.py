@@ -36,6 +36,7 @@ class Trait(models.Model):
     def __str__(self):
         return self.name
 
+
 class Ability(models.Model):
     cost = models.ManyToManyField(Battery)
     text = models.CharField(max_length=512)
@@ -46,12 +47,11 @@ class Ability(models.Model):
     def get_cost(self):
         return 0, self.cost.all()
 
-
-
     @property
     def cost_as_html(self):
         base_cost, batteries = self.get_cost
         return cost_to_html(base_cost, batteries)
+
 
 
 
@@ -76,24 +76,25 @@ class Card(models.Model):
         return base_cost, batteries
 
     @property
-    def nameless_cost(self):
-        return self.cost[0]
-
-    @property
-    def named_cost(self):
-        return self.cost[1]
-
-    @property
-    def converted_cost(self):
-        return nameless_cost + len(named_cost)
-
-    @property
     def cost_as_html(self):
         base_cost, batteries = self.get_cost
         return cost_to_html(base_cost, batteries)
 
 class Construct(Card):
-    attack = models.IntegerField()
-    defense = models.IntegerField()
+    attack = models.PositiveIntegerField()
+    defense = models.PositiveIntegerField()
     traits = models.ManyToManyField(Trait, blank=True)
     abilities = models.ManyToManyField(Ability, blank=True)
+
+
+class ActionEffect(models.Model):
+    effect = models.TextField(max_length=4096)
+    cost = models.ManyToManyField(Battery)
+
+
+class Action(Card):
+    cost = None
+    effects = models.ManyToManyField(ActionEffect)
+
+    def __str__(self):
+        return self.name
