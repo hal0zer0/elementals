@@ -8,9 +8,9 @@ def cost_to_html(base_cost, batteries=[]):
     icons=[]
     for battery in batteries:
         icons.append('<img src="{}" height="16px" width="16px">'.format(battery.type.icon))
+
     if base_cost == 0:
         base_cost = ''
-
     result = str(base_cost)+ ''.join(icons)
     #print("to_html output:", result)
     return result
@@ -52,14 +52,16 @@ class Ability(models.Model):
         base_cost, batteries = self.get_cost
         return cost_to_html(base_cost, batteries)
 
-
+class Rarity(models.Model):
+    level = models.PositiveIntegerField()
+    label = models.CharField(max_length=16)
 
 
 class Card(models.Model):
     name = models.CharField(max_length=64)
     picture = models.URLField(max_length=256)
     flavor_text = models.TextField(max_length=256)
-
+    rarity = models.ForeignKey(Rarity, on_delete=models.PROTECT)
     def __str__(self):
         return self.name
 
@@ -72,9 +74,8 @@ class Card(models.Model):
         return cost_to_html(base_cost, batteries)
 
 class Construct(Card):
-    card_type='CONSTRUCT'
-    attack = models.PositiveIntegerField()
-    defense = models.PositiveIntegerField()
+    attack = models.PositiveIntegerField(default=1)
+    defense = models.PositiveIntegerField(default=1)
     traits = models.ManyToManyField(Trait, blank=True)
     abilities = models.ManyToManyField(Ability, blank=True)
 
