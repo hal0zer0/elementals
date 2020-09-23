@@ -23,7 +23,7 @@
           <div class="card " style="width: 18rem;">
             <h5 class="card-header bg-dark text-light">{{ card.name }}</h5>
             <div align="right" class="bg-light">
-              <strong>{{ card.cost_as_html|safe }}-</strong>
+              <strong>{{ card.cost_as_html|safe }}</strong>
 
             </div>
 
@@ -44,13 +44,20 @@
                 {% endfor %}
               {% endif %}
 
+              {% if card.action %}
+              <ul>
+                {% for effect in card.action.effects.all %}
+                  <li>{{ effect.effect }}</li>
+                {% endfor %}
+              </ul>
+              {% endif %}
 
 
 
 
               <hr>
               <p class="card-text"><em>{{ card.flavor_text }}</em></p>
-              {% if card.costruct %}
+              {% if card.construct %}
                 <div align="right"><p><strong>{{card.construct.attack}}/{{ card.construct.defense }}</strong></p></div>
               {% endif %}
 
