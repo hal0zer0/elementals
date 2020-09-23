@@ -25,3 +25,7 @@ class AbilityAdmin(admin.ModelAdmin):
 @admin.register(emodels.Action)
 class ActionAdmin(admin.ModelAdmin):
     pass
+
+@admin.register(emodels.ActionEffect)
+class ActionEffectAdmin(admin.ModelAdmin):
+    pass

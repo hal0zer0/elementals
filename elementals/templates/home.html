@@ -23,7 +23,7 @@
           <div class="card " style="width: 18rem;">
             <h5 class="card-header bg-dark text-light">{{ card.name }}</h5>
             <div align="right" class="bg-light">
-              <strong>{{ card.cost_as_html|safe }}</strong>
+              <strong>{{ card.cost_as_html|safe }}-</strong>
 
             </div>
 
@@ -50,7 +50,9 @@
 
               <hr>
               <p class="card-text"><em>{{ card.flavor_text }}</em></p>
-              <div align="right"><p><strong>{{card.construct.attack}}/{{ card.construct.defense }}</strong></p></div>
+              {% if card.costruct %}
+                <div align="right"><p><strong>{{card.construct.attack}}/{{ card.construct.defense }}</strong></p></div>
+              {% endif %}
 
             </div>
           </div>
