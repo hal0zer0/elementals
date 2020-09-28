@@ -1,0 +1,55 @@
+          <div class="card " >
+            <h5 class="card-header bg-dark text-light">{{ card.name }}</h5>
+            <div align="right" class="bg-light">
+              <strong>{{ card.cost_as_html|safe }}</strong>
+
+            </div>
+
+            <img class="card-img-top" src="{{card.picture}}" alt="Card image cap" width="266px" height="200px">
+            <div class="card-body">
+              <!-- CONSTRUCT --------------------------------------------->
+              {% if card.construct %}
+                <ul>
+                  {% for trait in card.construct.traits.all %}
+                    <li>{{ trait.name }}</li>
+                  {% endfor %}
+
+                </ul>
+                {% if card.construct.abilities.all.count > 0 %}
+                    <hr>
+                    {% for ability in card.construct.abilities.all %}
+                      {{ ability.cost_as_html|safe }}:
+                      {{ ability.text }}
+                    {% endfor %}
+                {% endif %}
+              {% endif %}
+
+              <!-- ACTION -------------------------------------------------->
+              {% if card.action %}
+              <ul>
+                {% for effect in card.action.effects.all %}
+                  <li>{{ effect.effect }}</li>
+                {% endfor %}
+              </ul>
+              {% endif %}
+
+              <!-- MOD ------------------------------------------------------>
+              {% if card.mod %}
+                <ul>
+                    {% for effect in card.mod.effects.all %}
+                      <li>{{ effect.effect }}</li>
+                    {% endfor %}
+                </ul>
+              {% endif %}
+
+                {% if card.flavor_text %}
+                <hr>
+                  <p class="card-text">
+                      <em>{{ card.flavor_text }}</em></p>
+                  {% if card.construct %}
+                    <div align="right"><p><strong>{{card.construct.attack}}/{{ card.construct.defense }}</strong></p></div>
+                  {% endif %}
+                {% endif %}
+
+            </div>
+          </div>

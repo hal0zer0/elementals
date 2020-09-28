@@ -18,53 +18,23 @@
 
 
     <div class="container">
+        <h2>Assorted cards</h2>
       <div class="card-columns">
         {% for card in cards %}
-          <div class="card " style="width: 18rem;">
-            <h5 class="card-header bg-dark text-light">{{ card.name }}</h5>
-            <div align="right" class="bg-light">
-              <strong>{{ card.cost_as_html|safe }}</strong>
-
-            </div>
-
-            <img class="card-img-top" src="{{card.picture}}" alt="Card image cap" width="266px" height="200px">
-            <div class="card-body">
-
-              {% if card.construct %}
-                <ul>
-                  {% for trait in card.construct.traits.all %}
-                    <li>{{ trait.name }}</li>
-                  {% endfor %}
-
-                </ul>
-                <hr>
-                {% for ability in card.construct.abilities.all %}
-                  {{ ability.cost_as_html|safe }}:
-                  {{ ability.text }}
-                {% endfor %}
-              {% endif %}
-
-              {% if card.action %}
-              <ul>
-                {% for effect in card.action.effects.all %}
-                  <li>{{ effect.effect }}</li>
-                {% endfor %}
-              </ul>
-              {% endif %}
-
-              <hr>
-              <p class="card-text"><em>{{ card.flavor_text }}</em></p>
-              {% if card.construct %}
-                <div align="right"><p><strong>{{card.construct.attack}}/{{ card.construct.defense }}</strong></p></div>
-              {% endif %}
-
-            </div>
-          </div>
+          {% include "_card.html" %}
         {% endfor %}
       </div>
     </div>
 
 
+
+    <div class="container">
+        <h2>Assorted Decks</h2>
+        {% for deck in decks %}
+            {{ deck.name }}
+            <img src="{{ deck.image }}" height="266px" width="200px">
+        {% endfor %}
+    </div>
 
 </main>
 

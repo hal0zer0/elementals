@@ -33,3 +33,19 @@ class ActionEffectAdmin(admin.ModelAdmin):
 @admin.register(emodels.Rarity)
 class RarityAdmin(admin.ModelAdmin):
     pass
+
+@admin.register(emodels.CardSubtype)
+class CardSubtypeAdmin(admin.ModelAdmin):
+    pass
+
+@admin.register(emodels.Mod)
+class ModAdmin(admin.ModelAdmin):
+    pass
+
+@admin.register(emodels.ModEffect)
+class ModEffectAdmin(admin.ModelAdmin):
+    pass
+
+@admin.register(emodels.Deck)
+class DeckAdmin(admin.ModelAdmin):
+    pass
