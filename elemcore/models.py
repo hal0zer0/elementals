@@ -163,13 +163,13 @@ class Mod(Card):
                 batteries.append(battery)
         return base_cost, batteries
 
-
 class Deck(models.Model):
     owner = models.ForeignKey(User, on_delete=models.PROTECT)
     name = models.CharField(max_length=64)
-    cards = models.ManyToManyField(Card)
+    cards = models.ManyToManyField(Card, through='DeckPassThrough')
     public = models.BooleanField(default=False)
     image = models.URLField(max_length=256)
 
-    def __str__(self):
-        return self.name
+class DeckPassThrough(models.Model):
+    card = models.ForeignKey(Card, on_delete=models.CASCADE)
+    deck = models.ForeignKey(Deck, on_delete=models.CASCADE)
