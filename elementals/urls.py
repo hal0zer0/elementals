@@ -14,10 +14,13 @@ Including another URLconf
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 from django.contrib import admin
-from django.urls import path
-from elementals.views import home
+from django.urls import path, include
+from elementals.views import home, profile
+from elemapi import urls as apiurls
 
 urlpatterns = [
     path('admin/', admin.site.urls),
+    path('api/', include(apiurls)),
     path('', home.ShowHome, name="home"),
+    path('users/<username>/', profile.show, name="profile"),
 ]
