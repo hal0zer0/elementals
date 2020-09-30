@@ -82,7 +82,7 @@ class Card(models.Model):
     subtype = models.ForeignKey(CardSubtype, on_delete=models.PROTECT, blank=True, null=True)
     user = models.ForeignKey(User, on_delete=models.PROTECT)
     public = models.BooleanField(default=False)
-
+    card_type = ""
     def __str__(self):
         return self.name
 
@@ -102,6 +102,7 @@ class Construct(Card):
     defense = models.PositiveIntegerField(default=1)
     traits = models.ManyToManyField(Trait, blank=True)
     abilities = models.ManyToManyField(Ability, blank=True)
+    card_type = "CONSTRUCT"
 
     @property
     def get_cost(self):
@@ -116,6 +117,8 @@ class Construct(Card):
         return base_cost, batteries
 
 
+
+
 class ActionEffect(models.Model):
     effect = models.TextField(max_length=4096)
     cost = models.ManyToManyField(Battery)
@@ -127,7 +130,7 @@ class ActionEffect(models.Model):
 
 class Action(Card):
     effects = models.ManyToManyField(ActionEffect)
-
+    card_type = "ACTION"
     def __str__(self):
         return self.name
 

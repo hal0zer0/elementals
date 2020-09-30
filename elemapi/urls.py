@@ -4,6 +4,9 @@ from elemapi import views
 
 router = routers.DefaultRouter()
 router.register(r'cards', views.CardViewSet)
+router.register(r'rarity', views.RarityViewSet)
+router.register(r'cardsubtype', views.CardSubtypeViewSet)
+router.register(r'user', views.UserViewSet)
 
 urlpatterns = [
     path('', include(router.urls)),
