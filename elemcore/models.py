@@ -82,7 +82,16 @@ class Card(models.Model):
     subtype = models.ForeignKey(CardSubtype, on_delete=models.PROTECT, blank=True, null=True)
     user = models.ForeignKey(User, on_delete=models.PROTECT)
     public = models.BooleanField(default=False)
-    card_type = ""
+
+    @property
+    def card_type(self):
+        if hasattr(self, 'construct'):
+            return "CONSTRUCT"
+        elif hasattr(self, 'action'):
+            return "ACTION"
+        else:
+            return ""
+
     def __str__(self):
         return self.name
 
@@ -102,7 +111,6 @@ class Construct(Card):
     defense = models.PositiveIntegerField(default=1)
     traits = models.ManyToManyField(Trait, blank=True)
     abilities = models.ManyToManyField(Ability, blank=True)
-    card_type = "CONSTRUCT"
 
     @property
     def get_cost(self):
