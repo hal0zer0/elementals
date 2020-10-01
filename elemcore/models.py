@@ -106,17 +106,13 @@ class Card(models.Model):
             base_cost, batteries = self.construct.get_cost
         elif hasattr(self, 'mod'):
             base_cost, batteries = self.mod.get_cost
-        print(self.card_type)
         return cost_to_html(base_cost, batteries)
 
     @property
     def attack_value(self):
         if self.card_type == 'CONSTRUCT':
-            return 99
+            return self.construct.attack
         else:
-            print(self.name, "is NOT construct apparently")
-            print(self.card_type)
-            print(dir(self))
             return None
 
     @property
@@ -201,6 +197,8 @@ class Deck(models.Model):
     cards = models.ManyToManyField(Card, through='DeckPassThrough')
     public = models.BooleanField(default=False)
     image = models.URLField(max_length=256)
+    def __str__(self):
+        return self.name
 
 class DeckPassThrough(models.Model):
     card = models.ForeignKey(Card, on_delete=models.CASCADE)

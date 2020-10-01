@@ -2,7 +2,15 @@
 
 {% block content %}
     <h1>Profile page for {{ user.username }} </h1>
-<h1>Profile page for {{ user.username }} </h1>
-<h1>Profile page for {{ user.username }} </h1>
-<h1>Profile page for {{ user.username }} </h1>
+
+    <div class="container bg-light">
+        <h2>My Cards</h2>
+        <a href="{% url 'create_card' %}"
+        <div class="card-columns">
+            {% for card in my_cards %}
+                {% include "_card.html" %}
+
+            {% endfor %}
+        </div>
+    </div>
 {% endblock %}
