@@ -18,9 +18,9 @@ class CardSerializer(serializers.HyperlinkedModelSerializer):
     subtype = CardSubtypeSerializer()
     class Meta:
         model = emodels.Card
-        fields = ['id', 'name', 'card_type', 'rarity', 'subtype']
+        if hasattr(model, 'construct'):
+            fields = ['url', 'id', 'name', 'card_type', 'rarity', 'subtype', 'attack_value', 'defense_value']
         depth = 1
-
 
 
 

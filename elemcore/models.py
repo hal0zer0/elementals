@@ -89,21 +89,42 @@ class Card(models.Model):
             return "CONSTRUCT"
         elif hasattr(self, 'action'):
             return "ACTION"
+        elif hasattr(self, 'mod'):
+            return "MOD"
         else:
-            return ""
+            return "Unknown"
 
     def __str__(self):
         return self.name
 
     @property
     def cost_as_html(self):
+        # Each card type has a different calculation cost because they add up their costs differently
         if hasattr(self, 'action'):
             base_cost, batteries = self.action.get_cost
         elif hasattr(self, 'construct'):
             base_cost, batteries = self.construct.get_cost
         elif hasattr(self, 'mod'):
             base_cost, batteries = self.mod.get_cost
+        print(self.card_type)
         return cost_to_html(base_cost, batteries)
+
+    @property
+    def attack_value(self):
+        if self.card_type == 'CONSTRUCT':
+            return 99
+        else:
+            print(self.name, "is NOT construct apparently")
+            print(self.card_type)
+            print(dir(self))
+            return None
+
+    @property
+    def defense_value(self):
+        if hasattr(self, 'construct'):
+            return self.construct.defense
+        else:
+            return None
 
 
 class Construct(Card):
