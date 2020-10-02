@@ -1,11 +1,12 @@
 {% extends 'base.html' %}
 
 {% block content %}
-    <h1>Profile page for {{ user.username }} </h1>
+
 
     <div class="container bg-light">
+        <h1>Profile page for {{ user.username }} </h1>
         <h2>My Cards</h2>
-        <a href="{% url 'create_card' %}"
+        <a href="{% url 'create_card' %}" class="btn btn-primary">Create Card</a>
         <div class="card-columns">
             {% for card in my_cards %}
                 {% include "_card.html" %}
