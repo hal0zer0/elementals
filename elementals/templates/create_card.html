@@ -1,5 +1,5 @@
 {% extends 'base.html' %}
-
+{% load crispy_forms_tags %}
 {% block content %}
 <div class="container bg-light">
 {% if messages %}
@@ -15,9 +15,9 @@
     <!-- TODO:  Bootstrap the forms.  crispy-forms? -->
     <form method="post">
         {% csrf_token %}
-        <table>
-        {{ form }}
-        </table>
+
+        {{ form|crispy }}
+
         <input type="submit" value="Submit" class="btn btn-primary">
     </form>
 

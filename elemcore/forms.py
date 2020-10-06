@@ -8,6 +8,7 @@ class ConstructForm(forms.ModelForm):
         subtype_name = self.cleaned_data['subtype']
         subtype = emodels.CardSubtype.objects.get_or_create(name=subtype_name)[0]
         self.instance.subtype = subtype
+        return super(ConstructForm, self).save(commit)
 
     class Meta:
         model = emodels.Construct

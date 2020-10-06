@@ -1,0 +1,3 @@
+
+class ConstructValidationError(Exception):
+    pass
