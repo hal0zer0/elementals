@@ -1,0 +1,43 @@
+{% extends 'base.html' %}
+
+{% load crispy_forms_tags %}
+{% block content %}
+<div class="container bg-light">
+    {% if messages %}
+
+    <ul class="messages">
+        {% for message in messages %}
+        <div {% if message.tags %} class="alert alert-{{ message.tags }}"{% endif %}>{{ message }}</div>
+        {% endfor %}
+    </ul>
+    {% endif %}
+    <!--
+    <h2>Add Abilities - {{ rarity }} and below</h2>
+    <form method="post">
+        {% csrf_token %}
+        {% for ability in abilities %}
+            <div class="form-check">
+                <input class="form-check-input" type="checkbox" value="{{ability.id}}" id="checkbox{{ability.id}}">
+                <label class="form-check-label" for="checkbox{{ability.id}}"> {{ ability.cost_as_html|safe }} - {{ ability.text }}</label>
+            </div>
+        {% endfor %}
+        <hr>
+        {% for trait in traits %}
+            <div class="form-check">
+                <input class="form-check-input" type="checkbox" value="{{trait.id}}" id="checkbox{{trait.id}}">
+                <label class="form-check-label" for="checkbox{{trait.id}}"> {{ trait.cost_as_html|safe }} - {{ trait.name }}</label>
+            </div>
+        {% endfor %}
+
+        <input type="submit" value="Submit" class="btn btn-primary">
+        </input>
+    </form> -->
+    <form method="post">
+        {% csrf_token %}
+        {% autoescape off %}
+          {{ form|safe }}
+        {% endautoescape %}
+
+    </form>
+</div>
+{% endblock %}

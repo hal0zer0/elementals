@@ -1,11 +1,12 @@
 from django.db import models
 from django.contrib.auth.models import User
+from django.core.validators import MaxValueValidator, MinValueValidator
+from django.utils.safestring import mark_safe
 import itertools
 import math
 
 
 def cost_to_html(base_cost, batteries=[]):
-    print("to_html got:", base_cost, batteries)
     # Takes = [base cost (int), [battery objects]]
     icons = []
     for battery in batteries:
@@ -41,6 +42,15 @@ class Trait(models.Model):
     def __str__(self):
         return self.name
 
+    @property
+    def get_cost(self):
+        return 0, self.cost.all()
+
+    @property
+    def cost_as_html(self):
+        base_cost, batteries = self.get_cost
+        return cost_to_html(base_cost, batteries)
+
 
 class Rarity(models.Model):
     level = models.PositiveIntegerField()
@@ -53,9 +63,10 @@ class Rarity(models.Model):
 class Ability(models.Model):
     cost = models.ManyToManyField(Battery)
     text = models.CharField(max_length=512)
+    rarity = models.ForeignKey(Rarity, on_delete=models.PROTECT)
 
     def __str__(self):
-        return self.text
+        return mark_safe(self.cost_as_html + self.text)
 
     @property
     def get_cost(self):
@@ -65,6 +76,12 @@ class Ability(models.Model):
     def cost_as_html(self):
         base_cost, batteries = self.get_cost
         return cost_to_html(base_cost, batteries)
+
+    @property
+    def cost_as_string(self):
+        result = " ".join([battery.type.name for battery in self.cost.all()])
+        print(result)
+        return result
 
 
 class CardSubtype(models.Model):
@@ -108,6 +125,7 @@ class Card(models.Model):
             base_cost, batteries = self.mod.get_cost
         return cost_to_html(base_cost, batteries)
 
+
     @property
     def attack_value(self):
         if self.card_type == 'CONSTRUCT':
@@ -124,8 +142,8 @@ class Card(models.Model):
 
 
 class Construct(Card):
-    attack = models.PositiveIntegerField(default=1)
-    defense = models.PositiveIntegerField(default=1)
+    attack = models.PositiveIntegerField(default=1, validators=[MaxValueValidator(10), MinValueValidator(0)])
+    defense = models.PositiveIntegerField(default=1, validators=[MaxValueValidator(10), MinValueValidator(1)])
     traits = models.ManyToManyField(Trait, blank=True)
     abilities = models.ManyToManyField(Ability, blank=True)
 
@@ -138,7 +156,6 @@ class Construct(Card):
                 batteries.append(battery)
         base_cost = math.ceil((self.construct.attack + self.construct.defense) / 2)
 
-        print("Output of get_cost", base_cost, batteries)
         return base_cost, batteries
 
 
@@ -156,6 +173,7 @@ class ActionEffect(models.Model):
 class Action(Card):
     effects = models.ManyToManyField(ActionEffect)
     card_type = "ACTION"
+
     def __str__(self):
         return self.name
 
@@ -191,14 +209,17 @@ class Mod(Card):
                 batteries.append(battery)
         return base_cost, batteries
 
+
 class Deck(models.Model):
     owner = models.ForeignKey(User, on_delete=models.PROTECT)
     name = models.CharField(max_length=64)
     cards = models.ManyToManyField(Card, through='DeckPassThrough')
     public = models.BooleanField(default=False)
     image = models.URLField(max_length=256)
+
     def __str__(self):
         return self.name
+
 
 class DeckPassThrough(models.Model):
     card = models.ForeignKey(Card, on_delete=models.CASCADE)

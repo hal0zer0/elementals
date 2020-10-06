@@ -14,11 +14,13 @@
 <h2>Create a card </h2>
     <!-- TODO:  Bootstrap the forms.  crispy-forms? -->
     <form method="post">
+        <div class="form-group">
         {% csrf_token %}
 
         {{ form|crispy }}
 
         <input type="submit" value="Submit" class="btn btn-primary">
+        </div>
     </form>
 
 </div>
