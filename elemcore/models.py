@@ -70,7 +70,7 @@ class Ability(models.Model):
 
     @property
     def get_cost(self):
-        return 0, self.cost.all()
+        return 0, self.cost.all().order_by('type')
 
     @property
     def cost_as_html(self):
@@ -82,6 +82,11 @@ class Ability(models.Model):
         result = " ".join([battery.type.name for battery in self.cost.all()])
         print(result)
         return result
+
+    @property
+    def converted_cost(self):
+        base_cost, batteries = self.get_cost
+        return batteries.count()
 
 
 class CardSubtype(models.Model):
@@ -152,7 +157,7 @@ class Construct(Card):
         base_cost = 0
         batteries = []
         for trait in self.construct.traits.all():
-            for battery in trait.cost.all():
+            for battery in trait.cost.all().order_by('type'):
                 batteries.append(battery)
         base_cost = math.ceil((self.construct.attack + self.construct.defense) / 2)
 
@@ -182,7 +187,7 @@ class Action(Card):
         base_cost = 0
         batteries = []
         for effect in self.action.effects.all():
-            for battery in effect.cost.all():
+            for battery in effect.cost.all().order_by('type'):
                 batteries.append(battery)
         return base_cost, batteries
 
@@ -204,7 +209,7 @@ class Mod(Card):
         base_cost = 0
         batteries = []
         for effect in self.mod.effects.all():
-            for battery in effect.cost.all():
+            for battery in effect.cost.all().order_by('type'):
                 print("Mod Battery Found")
                 batteries.append(battery)
         return base_cost, batteries

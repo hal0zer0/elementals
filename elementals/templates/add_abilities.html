@@ -32,12 +32,15 @@
         <input type="submit" value="Submit" class="btn btn-primary">
         </input>
     </form> -->
+    <h2>Add abilities for {{ construct.name }}</h2>
+    <h3>Rarity: {{ rarity }} and below</h3>
     <form method="post">
         {% csrf_token %}
-        {% autoescape off %}
-          {{ form|safe }}
-        {% endautoescape %}
 
+          {{ abilities_form|crispy }}
+
+        <input type="submit" value="Submit" class="btn btn-primary">
     </form>
+
 </div>
 {% endblock %}

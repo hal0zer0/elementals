@@ -20,7 +20,7 @@ class BatteryTypeAdmin(admin.ModelAdmin):
 
 @admin.register(emodels.Ability)
 class AbilityAdmin(admin.ModelAdmin):
-    pass
+    list_display = ['text', 'converted_cost', 'rarity']
 
 @admin.register(emodels.Action)
 class ActionAdmin(admin.ModelAdmin):

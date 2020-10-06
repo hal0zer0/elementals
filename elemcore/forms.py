@@ -18,9 +18,20 @@ class ConstructForm(forms.ModelForm):
 
 class AbilitiesForm(forms.Form):
     abilities = forms.ModelMultipleChoiceField(
-                      queryset=emodels.Ability.objects.all(),
+                      queryset=None,
                       widget=forms.CheckboxSelectMultiple,
     )
     class Meta:
         model = emodels.Ability
         fields = ('text',)
+
+    def __init__(self, *args, **kwargs):
+        rarity = kwargs.pop('rarity')
+        super(AbilitiesForm, self).__init__(*args, **kwargs)
+        self.fields['abilities'].queryset = emodels.Ability.objects.filter(rarity__lte=rarity)
+
+class TraitsForm(forms.Form):
+    traits = forms.ModelMultipleChoiceField(
+                   queryset=emodels.Trait.objects.all(),
+                   widget=forms.CheckboxSelectMultiple,
+    )

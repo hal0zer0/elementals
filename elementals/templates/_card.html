@@ -17,10 +17,12 @@
                 </ul>
                 {% if card.construct.abilities.all.count > 0 %}
                     <hr>
+                <ul>
                     {% for ability in card.construct.abilities.all %}
-                      {{ ability.cost_as_html|safe }}:
-                      {{ ability.text }}
+                      <li>{{ ability.cost_as_html|safe }}:
+                          {{ ability.text }}</li>
                     {% endfor %}
+                </ul>
                 {% endif %}
               {% endif %}
 
@@ -42,13 +44,16 @@
                 </ul>
               {% endif %}
 
+                <!-- Flavor text --------------------------------------------->
                 {% if card.flavor_text %}
                 <hr>
                   <p class="card-text">
                       <em>{{ card.flavor_text }}</em></p>
-                  {% if card.construct %}
+                {% endif %}
+
+                <!-- Attack/Defense ------------------------------------------>
+                {% if card.construct %}
                     <div align="right"><p><strong>{{card.construct.attack}}/{{ card.construct.defense }}</strong></p></div>
-                  {% endif %}
                 {% endif %}
 
             </div>
