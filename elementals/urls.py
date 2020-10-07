@@ -15,7 +15,7 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path, include
-from elementals.views import home, profile, create_construct, add_abilities
+from elementals.views import home, profile, create_construct, add_abilities, add_traits
 from elemapi import urls as apiurls
 
 urlpatterns = [
@@ -24,5 +24,6 @@ urlpatterns = [
     path('', home.ShowHome, name="home"),
     path('users/<username>/', profile.show, name="profile"),
     path('create/abilities/<int:construct_id>', add_abilities.show, name="abilities"),
+    path('create/traits/<int:construct_id>', add_traits.show, name="traits"),
     path('create/', create_construct.show, name="create_card")
 ]

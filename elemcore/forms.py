@@ -18,7 +18,7 @@ class ConstructForm(forms.ModelForm):
 
 class AbilitiesForm(forms.Form):
     abilities = forms.ModelMultipleChoiceField(
-                      queryset=None,
+                      queryset=emodels.Ability.objects.all(),
                       widget=forms.CheckboxSelectMultiple,
     )
     class Meta:

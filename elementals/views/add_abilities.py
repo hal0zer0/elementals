@@ -19,6 +19,6 @@ def show(request, construct_id):
         messages.add_message(request, messages.INFO, "Abilities and traits saved!")
         return redirect("traits", construct_id=construct_id)
     return render(request, 'add_abilities.html', {
-                                                  'form': abilities_form,
+                                                  'abilities_form': abilities_form,
                                                   'rarity': rlabel,
                                                   'construct': construct})

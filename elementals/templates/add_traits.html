@@ -1,0 +1,23 @@
+{% extends 'base.html' %}
+
+{% load crispy_forms_tags %}
+{% block content %}
+
+        {% if messages %}
+
+    <ul class="messages">
+        {% for message in messages %}
+        <div {% if message.tags %} class="alert alert-{{ message.tags }}"{% endif %}>{{ message }}</div>
+        {% endfor %}
+    </ul>
+    {% endif %}
+S
+    <div class="container bg-light">
+        <form method="post">
+            {% csrf_token %}
+            {{ traits_form|crispy }}
+            <input type="submit" value="Submit" class="btn btn-primary">
+        </form>
+
+    </div>
+{% endblock %}
