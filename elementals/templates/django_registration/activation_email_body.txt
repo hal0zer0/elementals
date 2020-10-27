@@ -1,0 +1,3 @@
+Hello, this message is to confirm your email address with Elementals.
+
+Your key is {{ site.domain }}/accounts/activate/{{ activation_key }}

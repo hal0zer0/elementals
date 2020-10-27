@@ -25,5 +25,7 @@ urlpatterns = [
     path('users/<username>/', profile.show, name="profile"),
     path('create/abilities/<int:construct_id>', add_abilities.show, name="abilities"),
     path('create/traits/<int:construct_id>', add_traits.show, name="traits"),
-    path('create/', create_construct.show, name="create_card")
+    path('create/', create_construct.show, name="create_card"),
+    path('accounts/', include('django_registration.backends.activation.urls')),
+    path('accounts/', include('django.contrib.auth.urls')),
 ]
