@@ -1,0 +1,4 @@
+django>=3.2<4.0
+djangorestframework>=3.12
+django-crispy-forms>=1.12
+django-registration==3.2
