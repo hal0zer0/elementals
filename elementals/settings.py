@@ -11,7 +11,12 @@ https://docs.djangoproject.com/en/3.1/ref/settings/
 """
 
 from pathlib import Path
-import app_secrets
+
+try:
+    import app_secrets
+except ModuleNotFoundError:
+    raise ModuleNotFoundError("Could not import secrets!  Create app_secrets.py with SECREY_KEY attribute.")
+
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -23,8 +28,10 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # SECURITY WARNING: keep the secret key used in production secret!
 try:
     SECRET_KEY = app_secrets.SECRET_KEY
-except ImportError:
-    raise ImportError("Could not import secrets!  Create app_secrets.py with SECREY_KEY attribute.")
+except AttributeError:
+    raise AttributeError("You app_secrets.py must contain a SECRET_KEY string attribute.")
+
+
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
