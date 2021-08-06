@@ -1,6 +1,8 @@
 # PROTOTYPE Elementals Card Creation Engine (ECCE)
 This project is a proof-of-concept card creation engine for the Elementals trading card game.  
 
+**!IMPORTANT!**
+This implementation of ECCE is **only designed as a prototype**.  The code on this page is NOT intended to be deployed for public use, and contains only the bare minimum front-end design needed to test the ECCE functionality.
 ## Game Concept
 Many players of trading card games such as MTG like the idea of creating their own custom cards.  There are many web sites and applications capable of this, however the cards created cannot be legally used in play as they have not been balanced or approved by the MTG team.
 
@@ -35,3 +37,6 @@ This portion of the project is in VERY early stages.  Currently, all data is bes
 Once completed, the new card is saved under the user's profile and can be reviewed (soon edited) from there.  
 
 ![Example of created cards with automatically assigned costs](examples/constructs.png)
+
+# Status
+ECCE is still in early stages of development.  Both the rules and and creation engine are subject to heavy change while the design is finalized.  
